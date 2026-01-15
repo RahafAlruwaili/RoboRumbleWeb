@@ -28,7 +28,7 @@ const Header = () => {
     { path: '#hero', label: t('nav.home') },
     { path: '#about', label: t('nav.about') },
     { path: '#schedule', label: t('nav.schedule') },
-    { path: '#prizes', label: t('nav.prizes') },
+    //{ path: '#prizes', label: t('nav.prizes') },
     { path: '#faq', label: t('faq.title') },
     { path: '/leaderboard', label: t('nav.leaderboard'), isRoute: true },
   ];
