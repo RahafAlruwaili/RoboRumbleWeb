@@ -18,13 +18,14 @@ const Footer = () => {
   }, {
     path: '#schedule',
     label: t('nav.schedule')
-  }, {
-    path: '#prizes',
-    label: language === 'ar' ? 'الجوائز' : 'Prizes'
-  }, {
-    path: '#sponsors',
-    label: t('nav.sponsors')
-  }, {
+  },// {
+   // path: '#prizes',
+   // label: language === 'ar' ? 'الجوائز' : 'Prizes'
+ // }, {
+   // path: '#sponsors',
+   // label: t('nav.sponsors')
+  //}, 
+  {
     path: '#faq',
     label: t('faq.title')
   }];

@@ -55,8 +55,9 @@ const Header = () => {
   useEffect(() => {
     if (location.pathname !== '/') return;
 
-    const sectionIds = ['hero', 'about', 'schedule', 'prizes', 'faq'];
-    
+    //const sectionIds = ['hero', 'about', 'schedule', 'prizes', 'faq'];
+    const sectionIds = ['hero', 'about', 'schedule', 'faq'];
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {

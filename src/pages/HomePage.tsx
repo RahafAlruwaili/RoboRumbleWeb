@@ -372,10 +372,11 @@ const FAQSection = () => {
   }, {
     question: t('faq.q3'),
     answer: t('faq.a3')
-  }, {
-    question: t('faq.q4'),
-    answer: t('faq.a4')
-  }];
+  }//, {
+    //question: t('faq.q4'),
+    //answer: t('faq.a4')
+//  }
+];
   return <section id="faq" className="py-20">
       <div className="container mx-auto">
         <div className="text-center mb-12">
@@ -422,7 +423,6 @@ const HomePage = () => {
       <AboutSection />
       <CountdownTimer />
       <TimelineSection />
-      <PrizesSection />
       <FAQSection />
     </div>;
 };
