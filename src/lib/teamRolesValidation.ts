@@ -150,26 +150,37 @@ export const canAddRole = (
     }
   }
 
-  // Check if trying to add 5th member before core team is complete
+  // Check if team has 4 members - special logic
   if (currentSize >= MIN_TEAM_SIZE) {
     const hasAllUniqueRoles = UNIQUE_ROLES.every(role => filledRoles.includes(role));
     const hasMechanicsDesigner = filledRoles.includes(MULTI_SLOT_ROLE);
+    const isCoreComplete = hasAllUniqueRoles && hasMechanicsDesigner;
     
-    if (!hasAllUniqueRoles || !hasMechanicsDesigner) {
-      return {
-        isValid: false,
-        error: 'Core team (4 members) must be complete before adding a 5th member',
-        errorAr: 'يجب اكتمال الفريق الأساسي (4 أعضاء) قبل إضافة العضو الخامس',
-      };
-    }
-
-    // 5th member can only be mechanics_designer
-    if (newRole !== MULTI_SLOT_ROLE) {
-      return {
-        isValid: false,
-        error: 'The 5th member can only be in the mechanics/designer role',
-        errorAr: 'العضو الخامس يمكن أن يكون فقط من فئة التجميع/التصميم',
-      };
+    // If core is complete, 5th member can only be mechanics_designer
+    if (isCoreComplete) {
+      if (newRole !== MULTI_SLOT_ROLE) {
+        return {
+          isValid: false,
+          error: 'The 5th member can only be in the mechanics/designer role',
+          errorAr: 'العضو الخامس يمكن أن يكون فقط من فئة التجميع/التصميم',
+        };
+      }
+    } else {
+      // Core is NOT complete (missing required roles)
+      // Only allow adding the missing required roles
+      const missingUniqueRoles = UNIQUE_ROLES.filter(role => !filledRoles.includes(role));
+      const missingMechanicsDesigner = !hasMechanicsDesigner;
+      
+      const isMissingUniqueRole = missingUniqueRoles.includes(newRole);
+      const isMissingMechanics = missingMechanicsDesigner && newRole === MULTI_SLOT_ROLE;
+      
+      if (!isMissingUniqueRole && !isMissingMechanics) {
+        return {
+          isValid: false,
+          error: 'Core team must be complete first. Missing required roles.',
+          errorAr: 'يجب إكمال الفريق الأساسي أولاً. هناك أدوار مطلوبة ناقصة.',
+        };
+      }
     }
   }
 
