@@ -28,6 +28,7 @@ const Header = () => {
     { path: '#hero', label: t('nav.home') },
     { path: '#about', label: t('nav.about') },
     { path: '#schedule', label: t('nav.schedule') },
+    { path: '#sponsors', label: t('nav.sponsors') },
     //{ path: '#prizes', label: t('nav.prizes') },
     { path: '#faq', label: t('faq.title') },
     { path: '/leaderboard', label: t('nav.leaderboard'), isRoute: true },
@@ -56,7 +57,8 @@ const Header = () => {
     if (location.pathname !== '/') return;
 
     //const sectionIds = ['hero', 'about', 'schedule', 'prizes', 'faq'];
-    const sectionIds = ['hero', 'about', 'schedule', 'faq'];
+    const sectionIds = ['hero', 'about', 'schedule', 'sponsors', 'faq'];
+    //const sectionIds = ['hero', 'about', 'schedule', 'faq'];
 
     const observer = new IntersectionObserver(
       (entries) => {

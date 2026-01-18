@@ -21,10 +21,11 @@ const Footer = () => {
   },// {
    // path: '#prizes',
    // label: language === 'ar' ? 'الجوائز' : 'Prizes'
- // }, {
-   // path: '#sponsors',
-   // label: t('nav.sponsors')
-  //}, 
+ // },
+  {
+   path: '#sponsors',
+   label: t('nav.sponsors')
+  }, 
   {
     path: '#faq',
     label: t('faq.title')
