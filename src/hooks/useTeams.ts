@@ -263,17 +263,24 @@ export function useJoinRequest() {
     setLoading(true);
 
     try {
-      // Check if user already has a pending request for this team
+      // Check if user already has any request for this team (pending, accepted, or rejected)
       const { data: existingRequest } = await supabase
         .from('join_requests')
-        .select('id')
+        .select('id, status')
         .eq('team_id', teamId)
         .eq('user_id', user.id)
-        .eq('status', 'pending')
-        .single();
+        .maybeSingle();
 
       if (existingRequest) {
-        return { success: false, error: 'You already have a pending request', errorAr: 'لديك طلب معلق بالفعل لهذا الفريق' };
+        if (existingRequest.status === 'pending') {
+          return { success: false, error: 'You already have a pending request', errorAr: 'لديك طلب معلق بالفعل لهذا الفريق' };
+        }
+        if (existingRequest.status === 'rejected') {
+          return { success: false, error: 'Your request was rejected by the team leader', errorAr: 'تم رفض طلبك من قبل قائد الفريق' };
+        }
+        if (existingRequest.status === 'accepted') {
+          return { success: false, error: 'Your request was already accepted', errorAr: 'تم قبول طلبك بالفعل' };
+        }
       }
 
       // Check if user is already a member of any team
