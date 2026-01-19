@@ -7,6 +7,10 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import roborumbleLogo from '@/assets/roborumble-logo.png';
 import CountdownTimer from '@/components/CountdownTimer';
 import { useEffect, useState, useRef } from 'react';
+import smartMethodsLogo from '@/assets/smart-methods-logo.png';
+import voxelLogo from '@/assets/voxel-logo.png';
+import printingClubLogo from '@/assets/3dprinting-club-logo.jpg';
+import robotiLogo from '@/assets/roboti-logo.avif';
 const HeroSection = () => {
   const {
     t,
@@ -358,6 +362,88 @@ const PrizesSection = () => {
       </div>
     </section>;
 };
+const SponsorsSection = () => {
+  const { t, language } = useLanguage();
+
+  return (
+    <section id="sponsors" className="py-20">
+      <div className="container mx-auto">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold text-gradient-animated mb-4">
+            {t('sponsors.title')}
+          </h2>
+          <p className="text-lg text-muted-foreground">
+            {t('sponsors.subtitle')}
+          </p>
+        </div>
+
+        {/* Bronze Sponsor - الراعي البرونزي */}
+        <div className="mb-16">
+          <h3 className="text-2xl font-bold text-amber-600 text-center mb-8">
+            {language === 'ar' ? 'الراعي البرونزي' : 'Bronze Sponsor'}
+          </h3>
+          <div className="flex justify-center">
+            <div className="flex flex-col items-center">
+              <div className="relative">
+                {/* Decorative line */}
+                <div className="absolute left-1/2 -translate-x-1/2 -top-8 w-px h-8 bg-gradient-to-b from-amber-600/50 to-amber-600" />
+                <div className="w-40 h-40 md:w-52 md:h-52 rounded-full flex items-center justify-center bg-white shadow-card hover:shadow-2xl hover:scale-110 hover:-translate-y-2 transition-all duration-300 p-10 cursor-pointer group">
+                  <img src={smartMethodsLogo} alt="الأساليب الذكية" className="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-300" />
+                </div>
+              </div>
+              <p className="mt-4 text-sm md:text-base font-semibold text-amber-600 text-center">
+                {language === 'ar' ? 'الأساليب الذكية' : 'Smart Methods'}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Participating Organizations - الجهات المشاركة */}
+        <div className="mb-12">
+          <h3 className="text-2xl font-bold text-logo-orange text-center mb-10">
+            {language === 'ar' ? 'الجهات المشاركة' : 'Participating Organizations'}
+          </h3>
+          <div className="flex flex-wrap justify-center gap-12 md:gap-24">
+            {/* 3D Printing Club - شريك النمذجة والتصنيع */}
+            <div className="flex flex-col items-center">
+              <div className="relative">
+                {/* Decorative line */}
+                <div className="absolute left-1/2 -translate-x-1/2 -top-8 w-px h-8 bg-gradient-to-b from-logo-orange/50 to-logo-orange" />
+                <div className="w-32 h-32 md:w-44 md:h-44 rounded-full flex items-center justify-center bg-white shadow-card hover:shadow-2xl hover:scale-110 hover:-translate-y-2 transition-all duration-300 p-8 cursor-pointer group">
+                  <img src={printingClubLogo} alt="3D Printing Club" className="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-300" />
+                </div>
+              </div>
+              <p className="mt-4 text-xs md:text-sm text-muted-foreground text-center">
+                {language === 'ar' ? 'نادي الطباعة ثلاثية الأبعاد' : '3D Printing Club'}
+              </p>
+              <p className="text-sm md:text-base font-semibold text-logo-orange text-center">
+                {language === 'ar' ? 'شريك النمذجة و التصنيع' : 'Modeling & Manufacturing Partner'}
+              </p>
+            </div>
+
+            {/* Roboti - راعي التمكين */}
+            <div className="flex flex-col items-center">
+              <div className="relative">
+                {/* Decorative line */}
+                <div className="absolute left-1/2 -translate-x-1/2 -top-8 w-px h-8 bg-gradient-to-b from-logo-orange/50 to-logo-orange" />
+                <div className="w-32 h-32 md:w-44 md:h-44 rounded-full flex items-center justify-center bg-white shadow-card hover:shadow-2xl hover:scale-110 hover:-translate-y-2 transition-all duration-300 p-8 cursor-pointer group">
+                  <img src={robotiLogo} alt="Roboti" className="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-300" />
+                </div>
+              </div>
+              <p className="mt-4 text-xs md:text-sm text-muted-foreground text-center">
+                {language === 'ar' ? 'روبوتي' : 'Roboti'}
+              </p>
+              <p className="text-sm md:text-base font-semibold text-logo-orange text-center">
+                {language === 'ar' ? 'راعي التمكين' : 'Empowerment Sponsor'}
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  );
+};
 
 const FAQSection = () => {
   const {
@@ -423,6 +509,7 @@ const HomePage = () => {
       <AboutSection />
       <CountdownTimer />
       <TimelineSection />
+      <SponsorsSection />
       <FAQSection />
     </div>;
 };
