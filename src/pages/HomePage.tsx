@@ -449,7 +449,7 @@ const SponsorsSection = () => {
                 </div>
               </div>
               <p className="mt-4 text-xs md:text-sm text-muted-foreground text-center">
-                {language === 'ar' ? 'هاكاثونات' : 'Hackathons'}
+                {language === 'ar' ? 'هاكاثونات' : 'Hackathonat'}
               </p>
               <p className="text-sm md:text-base font-semibold text-logo-orange text-center">
                 {language === 'ar' ? 'راعي تسويقي' : 'Marketing Sponsor'}
