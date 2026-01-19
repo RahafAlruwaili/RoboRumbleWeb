@@ -11,6 +11,7 @@ import smartMethodsLogo from '@/assets/smart-methods-logo.png';
 import voxelLogo from '@/assets/voxel-logo.png';
 import printingClubLogo from '@/assets/3dprinting-club-logo.jpg';
 import robotiLogo from '@/assets/roboti-logo.avif';
+import hackathonsLogo from '@/assets/hackathons-logo.png';
 const HeroSection = () => {
   const {
     t,
@@ -436,6 +437,23 @@ const SponsorsSection = () => {
               <p className="text-sm md:text-base font-semibold text-logo-orange text-center">
                 {language === 'ar' ? 'راعي التمكين' : 'Empowerment Sponsor'}
               </p>
+            </div>
+
+            {/* Hackathons - راعي تسويقي */}
+            <div className="flex flex-col items-center">
+              <div className="relative">
+                {/* Decorative line */}
+                <div className="absolute left-1/2 -translate-x-1/2 -top-8 w-px h-8 bg-gradient-to-b from-logo-orange/50 to-logo-orange" />
+                <div className="w-32 h-32 md:w-44 md:h-44 rounded-full flex items-center justify-center bg-white shadow-card hover:shadow-2xl hover:scale-110 hover:-translate-y-2 transition-all duration-300 p-8 cursor-pointer group">
+                  <img src={hackathonsLogo} alt="Hackathons" className="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-300" />
+                </div>
+              </div>
+              <p className="mt-4 text-xs md:text-sm text-muted-foreground text-center">
+                {language === 'ar' ? 'هاكاثونات' : 'Hackathons'}
+              </p>
+              <p className="text-sm md:text-base font-semibold text-logo-orange text-center">
+                {language === 'ar' ? 'راعي تسويقي' : 'Marketing Sponsor'}
+                </p>
             </div>
           </div>
         </div>
