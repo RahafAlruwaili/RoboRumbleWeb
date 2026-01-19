@@ -99,8 +99,8 @@ export const translations = {
     "schedule.day4.item3": "حفل التتويج والجوائز",
 
     // Sponsors
-    //"sponsors.title": "الرعاة",
-    //"sponsors.subtitle": "شركاء النجاح",
+    "sponsors.title": "الرعاة",
+    "sponsors.subtitle": "شركاء النجاح",
     //"sponsors.official": "الراعي الرسمي",
     //"sponsors.gold": "الرعاة الذهبيون",
     //"sponsors.silver": "الرعاة الفضيون",
@@ -324,8 +324,8 @@ export const translations = {
     "schedule.day4.item3": "Awards Ceremony",
 
     // Sponsors
-    //"sponsors.title": "Sponsors",
-    //"sponsors.subtitle": "Partners in Success",
+    "sponsors.title": "Sponsors",
+    "sponsors.subtitle": "Partners in Success",
     //"sponsors.official": "Official Sponsor",
     //"sponsors.gold": "Gold Sponsors",
     //"sponsors.silver": "Silver Sponsors",
