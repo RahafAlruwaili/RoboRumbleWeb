@@ -12,6 +12,8 @@ import voxelLogo from '@/assets/voxel-logo.png';
 import printingClubLogo from '@/assets/3dprinting-club-logo.jpg';
 import robotiLogo from '@/assets/roboti-logo.avif';
 import hackathonsLogo from '@/assets/hackathons-logo.png';
+import aliLogo from '@/assets/ali-logo.png';
+import mcitLogo from '@/assets/mcit-logo.png';
 const HeroSection = () => {
   const {
     t,
@@ -378,6 +380,27 @@ const SponsorsSection = () => {
           </p>
         </div>
 
+        {/* Strategic Sponsor - الراعي الاستراتيجي */}
+        <div className="mb-16">
+          <h3 className="text-2xl font-bold text-emerald-600 text-center mb-8">
+            {language === 'ar' ? 'الراعي الاستراتيجي' : 'Strategic Sponsor'}
+          </h3>
+          <div className="flex justify-center">
+            <div className="flex flex-col items-center">
+              <div className="relative">
+                {/* Decorative line */}
+                <div className="absolute left-1/2 -translate-x-1/2 -top-8 w-px h-8 bg-gradient-to-b from-emerald-600/50 to-emerald-600" />
+                <div className="w-44 h-44 md:w-56 md:h-56 rounded-full flex items-center justify-center bg-white shadow-card hover:shadow-2xl hover:scale-110 hover:-translate-y-2 transition-all duration-300 p-6 cursor-pointer group">
+                  <img src={mcitLogo} alt="وزارة الاتصالات وتقنية المعلومات" className="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-300" />
+                </div>
+              </div>
+              <p className="mt-4 text-sm md:text-base font-semibold text-emerald-600 text-center">
+                {language === 'ar' ? 'وزارة الاتصالات وتقنية المعلومات' : 'Ministry of Communications and IT'}
+              </p>
+            </div>
+          </div>
+        </div>
+
         {/* Bronze Sponsor - الراعي البرونزي */}
         <div className="mb-16">
           <h3 className="text-2xl font-bold text-amber-600 text-center mb-8">
@@ -432,7 +455,7 @@ const SponsorsSection = () => {
                 </div>
               </div>
               <p className="mt-4 text-xs md:text-sm text-muted-foreground text-center">
-                {language === 'ar' ? 'روبوتي' : 'Roboti'}
+                {language === 'ar' ? 'متجر روبوتي' : 'Roboti Store'}
               </p>
               <p className="text-sm md:text-base font-semibold text-logo-orange text-center">
                 {language === 'ar' ? 'راعي التمكين' : 'Empowerment Sponsor'}
@@ -454,6 +477,23 @@ const SponsorsSection = () => {
               <p className="text-sm md:text-base font-semibold text-logo-orange text-center">
                 {language === 'ar' ? 'راعي تسويقي' : 'Marketing Sponsor'}
                 </p>
+            </div>
+
+            {/* Ali Society - شريك نجاح */}
+            <div className="flex flex-col items-center">
+              <div className="relative">
+                {/* Decorative line */}
+                <div className="absolute left-1/2 -translate-x-1/2 -top-8 w-px h-8 bg-gradient-to-b from-logo-orange/50 to-logo-orange" />
+                <div className="w-32 h-32 md:w-44 md:h-44 rounded-full flex items-center justify-center bg-white shadow-card hover:shadow-2xl hover:scale-110 hover:-translate-y-2 transition-all duration-300 p-8 cursor-pointer group">
+                  <img src={aliLogo} alt="جمعية آلي" className="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-300" />
+                </div>
+              </div>
+              <p className="mt-4 text-xs md:text-sm text-muted-foreground text-center">
+                {language === 'ar' ? 'جمعية آلي' : 'Aali Robotics'}
+              </p>
+              <p className="text-sm md:text-base font-semibold text-logo-orange text-center">
+                {language === 'ar' ? 'شريك نجاح' : 'Success Partner'}
+              </p>
             </div>
           </div>
         </div>
