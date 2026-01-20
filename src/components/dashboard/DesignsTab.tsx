@@ -156,8 +156,10 @@ const DesignsTab = ({ isAdmin = false, canEdit = false, isLocked = false, teamId
       const uploadedFiles: DesignFile[] = [];
 
       for (const file of Array.from(selectedFiles)) {
-        const fileName = `${Date.now()}_${file.name}`;
-        const filePath = `designs/${teamId}/${fileName}`;
+        // Sanitize filename to remove non-ASCII characters for storage compatibility
+        const fileExtension = file.name.split('.').pop() || '';
+        const sanitizedName = `${Date.now()}_design.${fileExtension}`;
+        const filePath = `designs/${teamId}/${sanitizedName}`;
 
         const { error: uploadError } = await supabase.storage
           .from('cvs')
@@ -430,6 +432,7 @@ const DesignsTab = ({ isAdmin = false, canEdit = false, isLocked = false, teamId
                     <Button
                       variant="ghost"
                       size="icon"
+                      onClick={() => window.open(file.url, '_blank')}
                       className="h-8 w-8 text-muted-foreground hover:text-foreground"
                       title={language === 'ar' ? 'معاينة' : 'Preview'}
                     >
@@ -438,6 +441,15 @@ const DesignsTab = ({ isAdmin = false, canEdit = false, isLocked = false, teamId
                     <Button
                       variant="ghost"
                       size="icon"
+                      onClick={() => {
+                      const link = document.createElement('a');
+                      link.href = file.url;
+                      link.download = file.name;
+                      link.target = '_blank';
+                      document.body.appendChild(link);
+                      link.click();
+                      document.body.removeChild(link);
+                      }}
                       className="h-8 w-8 text-muted-foreground hover:text-foreground"
                       title={language === 'ar' ? 'تحميل' : 'Download'}
                     >
