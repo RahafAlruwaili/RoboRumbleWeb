@@ -14,7 +14,7 @@ import robotiLogo from '@/assets/roboti-logo.avif';
 import hackathonsLogo from '@/assets/hackathons-logo.png';
 import aliLogo from '@/assets/ali-logo.png';
 import mcitLogo from '@/assets/mcit-logo.png';
-import garage '@/assets/garage-logo.png';
+import theGarageLogo from '@/assets/garage-logo.png';
 const HeroSection = () => {
   const {
     t,
