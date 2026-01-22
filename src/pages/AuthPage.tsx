@@ -12,8 +12,13 @@ import PasswordChecklist from '@/components/ui/password-checklist';
 import { validatePassword } from '@/lib/validation';
 import { supabase } from "@/integrations/supabase/client";
 
-
 type AuthMode = 'login' | 'signup' | 'forgot' | 'update-password';
+
+interface RegistrationSettings {
+  is_open: boolean;
+  allow_team_editing: boolean;
+  auto_accept: boolean;
+}
 
 const AuthPage = () => {
   const { t, language, direction } = useLanguage();
@@ -22,16 +27,68 @@ const AuthPage = () => {
   const [mode, setMode] = useState<AuthMode>('login');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [registrationOpen, setRegistrationOpen] = useState(true);
+  const [checkingSettings, setCheckingSettings] = useState(true);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [fullName, setFullName] = useState('');
 
+  const ArrowIcon = direction === 'rtl' ? ArrowLeft : ArrowRight;
+  const BackIcon = direction === 'rtl' ? ArrowRight : ArrowLeft;
+
+  // Check registration settings
+  useEffect(() => {
+    const checkRegistrationStatus = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('system_settings')
+          .select('value')
+          .eq('key', 'registration')
+          .single();
+
+        if (!error && data) {
+          const settings = data.value as unknown as RegistrationSettings;
+          setRegistrationOpen(settings.is_open ?? true);
+        }
+      } catch (err) {
+        console.error('Error checking registration status:', err);
+      } finally {
+        setCheckingSettings(false);
+      }
+    };
+
+    checkRegistrationStatus();
+  }, []);
+
   useEffect(() => {
     // Check for recovery mode from URL hash or query params
     const hash = window.location.hash;
     const query = new URLSearchParams(window.location.search);
+// Check registration settings
+  useEffect(() => {
+    const checkRegistrationStatus = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('system_settings')
+          .select('value')
+          .eq('key', 'registration')
+          .single();
+
+        if (!error && data) {
+          const settings = data.value as unknown as RegistrationSettings;
+          setRegistrationOpen(settings.is_open ?? true);
+        }
+      } catch (err) {
+        console.error('Error checking registration status:', err);
+      } finally {
+        setCheckingSettings(false);
+      }
+    };
+
+    checkRegistrationStatus();
+  }, []);
 
     if (hash.includes('type=recovery') || query.get('mode') === 'reset') {
       setMode('update-password');
@@ -41,6 +98,14 @@ const AuthPage = () => {
   const ArrowIcon = direction === 'rtl' ? ArrowLeft : ArrowRight;
   const BackIcon = direction === 'rtl' ? ArrowRight : ArrowLeft;
 
+  // If registration is closed and user tries to access signup, redirect to login
+  useEffect(() => {
+    if (!checkingSettings && !registrationOpen && mode === 'signup') {
+      setMode('login');
+      toast.error(language === 'ar' ? 'التسجيل مغلق حالياً' : 'Registration is currently closed');
+    }
+  }, [mode, registrationOpen, checkingSettings, language]);
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -76,20 +141,11 @@ const AuthPage = () => {
       return;
 
     } else if (mode === 'signup') {
-      // Check if registration is open
-      const { data: regSettings } = await supabase
-        .from('system_settings')
-        .select('value')
-        .eq('key', 'registration')
-        .maybeSingle();
-
-      if (regSettings?.value && (regSettings.value as any).is_open === false) {
-        toast.error(
-          language === 'ar'
-            ? 'التسجيل مغلق حالياً'
-            : 'Registration is currently closed'
-        );
+      // Double-check registration is open before allowing signup
+      if (!registrationOpen) {
+        toast.error(language === 'ar' ? 'التسجيل مغلق حالياً' : 'Registration is currently closed');
         setLoading(false);
+        setMode('login');
         return;
       }
 
@@ -324,13 +380,21 @@ const AuthPage = () => {
           <div className="mt-6 text-center text-sm text-white/60">
             {mode === 'login' && (
               <p>
-                {t('auth.noAccount')}{' '}
-                <button
-                  onClick={() => setMode('signup')}
-                  className="text-primary font-semibold hover:underline"
-                >
-                  {t('auth.signup')}
-                </button>
+                {registrationOpen ? (
+                  <>
+                    {t('auth.noAccount')}{' '}
+                    <button
+                      onClick={() => setMode('signup')}
+                      className="text-primary font-semibold hover:underline"
+                    >
+                      {t('auth.signup')}
+                    </button>
+                  </>
+                ) : (
+                  <span className="text-yellow-500">
+                    {language === 'ar' ? 'التسجيل مغلق حالياً' : 'Registration is currently closed'}
+                  </span>
+                )}
               </p>
             )}
             {mode === 'signup' && (
