@@ -10,9 +10,9 @@ import { toast } from 'sonner';
 import roborumbleLogo from '@/assets/roborumble-logo.png';
 import PasswordChecklist from '@/components/ui/password-checklist';
 import { validatePassword } from '@/lib/validation';
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from '@/integrations/supabase/client';
 
-type AuthMode = 'login' | 'signup' | 'forgot' | 'update-password';
+type AuthMode = 'login' | 'signup' | 'forgot';
 
 interface RegistrationSettings {
   is_open: boolean;
@@ -29,7 +29,7 @@ const AuthPage = () => {
   const [loading, setLoading] = useState(false);
   const [registrationOpen, setRegistrationOpen] = useState(true);
   const [checkingSettings, setCheckingSettings] = useState(true);
-
+  
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -62,38 +62,12 @@ const AuthPage = () => {
     checkRegistrationStatus();
   }, []);
 
+  // Redirect if already authenticated
   useEffect(() => {
-    // Check for recovery mode from URL hash or query params
-    const hash = window.location.hash;
-    const query = new URLSearchParams(window.location.search);
-// Check registration settings
-  useEffect(() => {
-    const checkRegistrationStatus = async () => {
-      try {
-        const { data, error } = await supabase
-          .from('system_settings')
-          .select('value')
-          .eq('key', 'registration')
-          .single();
-
-        if (!error && data) {
-          const settings = data.value as unknown as RegistrationSettings;
-          setRegistrationOpen(settings.is_open ?? true);
-        }
-      } catch (err) {
-        console.error('Error checking registration status:', err);
-      } finally {
-        setCheckingSettings(false);
-      }
-    };
-
-    checkRegistrationStatus();
-  }, []);
-
-    if (hash.includes('type=recovery') || query.get('mode') === 'reset') {
-      setMode('update-password');
+    if (isAuthenticated) {
+      navigate('/all-teams');
     }
-  }, []);
+  }, [isAuthenticated, navigate]);
 
   // If registration is closed and user tries to access signup, redirect to login
   useEffect(() => {
@@ -102,7 +76,7 @@ const AuthPage = () => {
       toast.error(language === 'ar' ? 'التسجيل مغلق حالياً' : 'Registration is currently closed');
     }
   }, [mode, registrationOpen, checkingSettings, language]);
-  
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -110,7 +84,7 @@ const AuthPage = () => {
     if (mode === 'login') {
       const result = await login(email, password);
       setLoading(false);
-
+      
       if (!result.success) {
         if (result.error === 'invalid_credentials') {
           toast.error(language === 'ar' ? 'البريد الإلكتروني أو كلمة المرور غير صحيحة' : 'Invalid email or password');
@@ -120,23 +94,8 @@ const AuthPage = () => {
         return;
       }
 
-      // Check if profile is completed
-      const { data: profileData } = await supabase
-        .from('profiles')
-        .select('profile_completed')
-        .eq('email', email)
-        .maybeSingle();
-
       toast.success(language === 'ar' ? 'تم تسجيل الدخول بنجاح' : 'Logged in successfully');
-
-      // Redirect based on profile completion status
-      if (!profileData?.profile_completed) {
-        navigate('/complete-profile');
-      } else {
-        navigate('/all-teams');
-      }
-      return;
-
+      navigate('/all-teams');
     } else if (mode === 'signup') {
       // Double-check registration is open before allowing signup
       if (!registrationOpen) {
@@ -166,53 +125,18 @@ const AuthPage = () => {
         return;
       }
 
-      toast.success(
-        language === 'ar'
-          ? 'تم إنشاء الحساب! يرجى تأكيد بريدك الإلكتروني ثم تسجيل الدخول.'
-          : 'Account created! Please verify your email then login.'
-      );
-      setMode('login');
-      setPassword('');
-      setConfirmPassword('');
-      setFullName('');
-      return;
-    } else if (mode === 'update-password') {
-      const passwordValidation = validatePassword(password);
-      if (!passwordValidation.isValid) {
-        toast.error(language === 'ar' ? 'كلمة المرور لا تستوفي المتطلبات' : 'Password does not meet requirements');
-        setLoading(false);
-        return;
-      }
-      if (password !== confirmPassword) {
-        toast.error(language === 'ar' ? 'كلمات المرور غير متطابقة' : 'Passwords do not match');
-        setLoading(false);
-        return;
-      }
-
-      const { error } = await supabase.auth.updateUser({ password: password });
-
-      setLoading(false);
-
-      if (error) {
-        toast.error(language === 'ar' ? 'حدث خطأ في تحديث كلمة المرور' : 'Failed to update password');
-        return;
-      }
-
-      toast.success(language === 'ar' ? 'تم تحديث كلمة المرور بنجاح' : 'Password updated successfully');
-      setMode('login');
-      setPassword('');
-      setConfirmPassword('');
-      // Redirect to home or dashboard after password reset
-      navigate('/');
+      toast.success(language === 'ar' ? 'تم إنشاء الحساب بنجاح!' : 'Account created successfully!');
+      // Redirect new users to complete their profile
+      navigate('/complete-profile');
     } else {
       const result = await resetPassword(email);
       setLoading(false);
-
+      
       if (!result.success) {
         toast.error(result.error || (language === 'ar' ? 'حدث خطأ' : 'An error occurred'));
         return;
       }
-
+      
       toast.success(language === 'ar' ? 'تم إرسال رابط إعادة التعيين' : 'Reset link sent to your email');
       setMode('login');
     }
@@ -247,7 +171,6 @@ const AuthPage = () => {
             {mode === 'login' && t('auth.login')}
             {mode === 'signup' && t('auth.signup')}
             {mode === 'forgot' && t('auth.forgotPassword')}
-            {mode === 'update-password' && (language === 'ar' ? 'تحديث كلمة المرور' : 'Update Password')}
           </h2>
 
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -272,31 +195,27 @@ const AuthPage = () => {
               </div>
             )}
 
-            {/* Email - Hide in update-password mode */}
-            {mode !== 'update-password' && (
-              <div className="space-y-2">
-                <Label htmlFor="email" className="text-white/90">{t('auth.email')}</Label>
-                <div className="relative">
-                  <Mail className="absolute top-1/2 -translate-y-1/2 start-3 text-white/50" size={18} />
-                  <Input
-                    id="email"
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="email@example.com"
-                    className="ps-10 bg-white/10 border-white/20 text-white placeholder:text-white/40 focus:border-primary"
-                    required={mode !== 'update-password'}
-                  />
-                </div>
+            {/* Email */}
+            <div className="space-y-2">
+              <Label htmlFor="email" className="text-white/90">{t('auth.email')}</Label>
+              <div className="relative">
+                <Mail className="absolute top-1/2 -translate-y-1/2 start-3 text-white/50" size={18} />
+                <Input
+                  id="email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="email@example.com"
+                  className="ps-10 bg-white/10 border-white/20 text-white placeholder:text-white/40 focus:border-primary"
+                  required
+                />
               </div>
-            )}
+            </div>
 
             {/* Password (not for forgot mode) */}
             {mode !== 'forgot' && (
               <div className="space-y-2">
-                <Label htmlFor="password" className="text-white/90">
-                  {mode === 'update-password' ? (language === 'ar' ? 'كلمة المرور الجديدة' : 'New Password') : t('auth.password')}
-                </Label>
+                <Label htmlFor="password" className="text-white/90">{t('auth.password')}</Label>
                 <div className="relative">
                   <Lock className="absolute top-1/2 -translate-y-1/2 start-3 text-white/50" size={18} />
                   <Input
@@ -316,17 +235,17 @@ const AuthPage = () => {
                     {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                   </button>
                 </div>
-                {(mode === 'signup' || mode === 'update-password') && (
-                  <PasswordChecklist
-                    validation={validatePassword(password)}
+                {mode === 'signup' && (
+                  <PasswordChecklist 
+                    validation={validatePassword(password)} 
                     show={password.length > 0}
                   />
                 )}
               </div>
             )}
 
-            {/* Confirm Password (signup and update-password only) */}
-            {(mode === 'signup' || mode === 'update-password') && (
+            {/* Confirm Password (signup only) */}
+            {mode === 'signup' && (
               <div className="space-y-2">
                 <Label htmlFor="confirmPassword" className="text-white/90">{t('auth.confirmPassword')}</Label>
                 <div className="relative">
@@ -366,7 +285,6 @@ const AuthPage = () => {
                   {mode === 'login' && t('auth.loginBtn')}
                   {mode === 'signup' && t('auth.signupBtn')}
                   {mode === 'forgot' && t('common.submit')}
-                  {mode === 'update-password' && (language === 'ar' ? 'تحديث كلمة المرور' : 'Update Password')}
                   <ArrowIcon size={18} />
                 </>
               )}
