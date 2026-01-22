@@ -14,6 +14,7 @@ import robotiLogo from '@/assets/roboti-logo.avif';
 import hackathonsLogo from '@/assets/hackathons-logo.png';
 import aliLogo from '@/assets/ali-logo.png';
 import mcitLogo from '@/assets/mcit-logo.png';
+import garage '@/assets/garage-logo.png';
 const HeroSection = () => {
   const {
     t,
@@ -401,6 +402,26 @@ const SponsorsSection = () => {
           </div>
         </div>
 
+{/* Hosting Sponsor - الراعي المستضيف */}
+        <div className="mb-16">
+          <h3 className="text-2xl font-bold text-logo-orange text-center mb-8">
+            {language === 'ar' ? 'الراعي المستضيف' : 'Hosting Sponsor'}
+          </h3>
+          <div className="flex justify-center">
+            <div className="flex flex-col items-center">
+              <div className="relative">
+                {/* Decorative line */}
+                <div className="absolute left-1/2 -translate-x-1/2 -top-8 w-px h-8 bg-gradient-to-b from-logo-orange/50 to-logo-orange" />
+                <div className="w-42 h-42 md:w-54 md:h-54 rounded-full flex items-center justify-center bg-white shadow-card hover:shadow-2xl hover:scale-110 hover:-translate-y-2 transition-all duration-300 p-8 cursor-pointer group">
+                  <img src={theGarageLogo} alt="الكراج" className="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-300" />
+                </div>
+              </div>
+              <p className="mt-4 text-sm md:text-base font-semibold text-logo-orange text-center">
+                {language === 'ar' ? 'الكراج' : 'The Garage'}
+              </p>
+            </div>
+          </div>
+        </div>
         {/* Bronze Sponsor - الراعي البرونزي */}
         <div className="mb-16">
           <h3 className="text-2xl font-bold text-amber-600 text-center mb-8">
