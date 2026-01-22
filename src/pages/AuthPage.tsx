@@ -95,9 +95,6 @@ const AuthPage = () => {
     }
   }, []);
 
-  const ArrowIcon = direction === 'rtl' ? ArrowLeft : ArrowRight;
-  const BackIcon = direction === 'rtl' ? ArrowRight : ArrowLeft;
-
   // If registration is closed and user tries to access signup, redirect to login
   useEffect(() => {
     if (!checkingSettings && !registrationOpen && mode === 'signup') {
