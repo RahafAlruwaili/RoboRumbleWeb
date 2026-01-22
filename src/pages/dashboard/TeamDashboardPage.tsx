@@ -748,8 +748,8 @@ const TeamDashboardPage = () => {
                     <p className="text-xs text-muted-foreground flex items-center gap-1">
                       <AlertTriangle className="w-3 h-3" />
                       {language === 'ar'
-                        ? 'مسموح غياب واحد فقط خلال 4 أيام.'
-                        : 'Only one absence is allowed across 4 days.'}
+                        ? 'مسموح غياب واحد فقط خلال 3 أيام.'
+                        : 'Only one absence is allowed across 3 days.'}
                     </p>
                   </div>
                 )}

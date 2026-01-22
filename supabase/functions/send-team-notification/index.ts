@@ -62,7 +62,7 @@ const getEmailContent = (status: string, teamName: string, language: string = "a
               <ul style="margin: 0; padding-right: 20px;">
                 <li>يمكنكم الآن الدخول لصفحة التحضير</li>
                 <li>تأكدوا من الحضور في أيام المسابقة</li>
-                <li>مسموح غياب واحد فقط خلال 4 أيام</li>
+                <li>مسموح غياب واحد فقط خلال 3 أيام</li>
               </ul>
             </div>
             <p style="text-align: center; color: #666; font-size: 20px;">نراكم في المسابقة! 🤖</p>

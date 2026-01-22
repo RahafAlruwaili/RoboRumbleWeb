@@ -251,8 +251,8 @@ const PreparationTab = ({ teamMembers, isAdmin, teamId }: PreparationTabProps) =
       <div className="bg-muted/30 rounded-xl p-4 border border-border/50">
         <p className="text-sm text-muted-foreground text-center">
           {language === 'ar' 
-            ? 'مسموح غياب واحد فقط لكل مشارك خلال 4 أيام.' 
-            : 'Only one absence is allowed per participant across 4 days.'}
+            ? 'مسموح غياب واحد فقط لكل مشارك خلال 3 أيام.' 
+            : 'Only one absence is allowed per participant across 3 days.'}
         </p>
       </div>
 
