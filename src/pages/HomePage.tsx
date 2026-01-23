@@ -9,6 +9,7 @@ import CountdownTimer from '@/components/CountdownTimer';
 import { useEffect, useState, useRef } from 'react';
 import smartMethodsLogo from '@/assets/smart-methods-logo.png';
 import voxelLogo from '@/assets/voxel-logo.png';
+import voxel3dLogo from '@/assets/voxel3d-logo.png';
 import printingClubLogo from '@/assets/3dprinting-club-logo.jpg';
 import robotiLogo from '@/assets/roboti-logo.avif';
 import hackathonsLogo from '@/assets/hackathons-logo.png';
@@ -511,6 +512,23 @@ const SponsorsSection = () => {
               </div>
               <p className="mt-4 text-xs md:text-sm text-muted-foreground text-center">
                 {language === 'ar' ? 'جمعية آلي' : 'Aali Robotics'}
+              </p>
+              <p className="text-sm md:text-base font-semibold text-logo-orange text-center">
+                {language === 'ar' ? 'شريك نجاح' : 'Success Partner'}
+              </p>
+            </div>
+
+            {/* Voxel 3D - شريك نجاح */}
+            <div className="flex flex-col items-center">
+              <div className="relative">
+                {/* Decorative line */}
+                <div className="absolute left-1/2 -translate-x-1/2 -top-8 w-px h-8 bg-gradient-to-b from-logo-orange/50 to-logo-orange" />
+                <div className="w-32 h-32 md:w-44 md:h-44 rounded-full flex items-center justify-center bg-white shadow-card hover:shadow-2xl hover:scale-110 hover:-translate-y-2 transition-all duration-300 p-8 cursor-pointer group">
+                  <img src={voxel3dLogo} alt="شركة المحاور الثلاثة المحدودة" className="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-300" />
+                </div>
+              </div>
+              <p className="mt-4 text-xs md:text-sm text-muted-foreground text-center">
+                {language === 'ar' ? 'شركة المحاور الثلاثة المحدودة' : 'Voxel 3D'}
               </p>
               <p className="text-sm md:text-base font-semibold text-logo-orange text-center">
                 {language === 'ar' ? 'شريك نجاح' : 'Success Partner'}
