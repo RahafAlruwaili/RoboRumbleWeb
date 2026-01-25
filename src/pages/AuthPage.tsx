@@ -15,6 +15,11 @@ import { supabase } from "@/integrations/supabase/client";
 
 type AuthMode = 'login' | 'signup' | 'forgot' | 'update-password';
 
+interface RegistrationSettings {
+  is_open: boolean;
+  allow_team_editing: boolean;
+  auto_accept: boolean;
+}
 const AuthPage = () => {
   const { t, language, direction } = useLanguage();
   const { login, signup, resetPassword, isAuthenticated } = useAuth();
@@ -22,6 +27,8 @@ const AuthPage = () => {
   const [mode, setMode] = useState<AuthMode>('login');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [registrationOpen, setRegistrationOpen] = useState(true);
+  const [checkingSettings, setCheckingSettings] = useState(true);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -58,6 +65,7 @@ const AuthPage = () => {
         return;
       }
 
+      
       // Check if profile is completed
       const { data: profileData } = await supabase
         .from('profiles')
@@ -66,6 +74,37 @@ const AuthPage = () => {
         .maybeSingle();
 
       toast.success(language === 'ar' ? 'تم تسجيل الدخول بنجاح' : 'Logged in successfully');
+      } else if (mode === 'signup') {
+  // Double-check registration is open before allowing signup
+  if (!registrationOpen) {
+    toast.error(language === 'ar' ? 'التسجيل مغلق حالياً' : 'Registration is currently closed');
+    setLoading(false);
+    setMode('login');
+    return;
+  }
+// Check registration settings
+  useEffect(() => {
+    const checkRegistrationStatus = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('system_settings')
+          .select('value')
+          .eq('key', 'registration')
+          .single();
+
+        if (!error && data) {
+          const settings = data.value as unknown as RegistrationSettings;
+          setRegistrationOpen(settings.is_open ?? true);
+        }
+      } catch (err) {
+        console.error('Error checking registration status:', err);
+      } finally {
+        setCheckingSettings(false);
+      }
+    };
+
+    checkRegistrationStatus();
+  }, []);
 
       // Redirect based on profile completion status
       if (!profileData?.profile_completed) {
@@ -164,6 +203,13 @@ const AuthPage = () => {
       setMode('login');
     }
   };
+// If registration is closed and user tries to access signup, redirect to login
+  useEffect(() => {
+    if (!checkingSettings && !registrationOpen && mode === 'signup') {
+      setMode('login');
+      toast.error(language === 'ar' ? 'التسجيل مغلق حالياً' : 'Registration is currently closed');
+    }
+  }, [mode, registrationOpen, checkingSettings, language]);
 
   return (
     <div className="min-h-screen relative flex items-center justify-center p-4 overflow-hidden">
@@ -324,13 +370,21 @@ const AuthPage = () => {
           <div className="mt-6 text-center text-sm text-white/60">
             {mode === 'login' && (
               <p>
-                {t('auth.noAccount')}{' '}
-                <button
-                  onClick={() => setMode('signup')}
-                  className="text-primary font-semibold hover:underline"
-                >
-                  {t('auth.signup')}
-                </button>
+                {registrationOpen ? (
+                  <>
+                    {t('auth.noAccount')}{' '}
+                    <button
+                      onClick={() => setMode('signup')}
+                      className="text-primary font-semibold hover:underline"
+                    >
+                      {t('auth.signup')}
+                    </button>
+                  </>
+                ) : (
+                  <span className="text-yellow-500">
+                    {language === 'ar' ? 'التسجيل مغلق حالياً' : 'Registration is currently closed'}
+                  </span>
+                )}
               </p>
             )}
             {mode === 'signup' && (
