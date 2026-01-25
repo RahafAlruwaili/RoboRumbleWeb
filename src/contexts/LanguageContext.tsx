@@ -287,7 +287,7 @@ export const translations = {
     "event.participantsDesc": "University students",
     "event.teams": "16 Teams",
     "event.teamsDesc": "Competing for the title",
-    "event.duration": "4 Days",
+    "event.duration": "3 Days",
     "event.durationDesc": "Of intensive competition",
     "event.workshops": "Workshops",
     "event.workshopsDate": "Jan 21-23, 2026",

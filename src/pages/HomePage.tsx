@@ -33,7 +33,7 @@ const HeroSection = () => {
     label: t('hero.teams')
   }, {
     icon: Calendar,
-    value: '4',
+    value: '3',
     label: t('hero.days')
   }];
   return <section id="hero" className="relative min-h-screen flex items-center overflow-hidden">
