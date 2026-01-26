@@ -21,6 +21,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import {
   Users,
@@ -110,6 +111,11 @@ const TeamDashboardPage = () => {
   const [deletingMember, setDeletingMember] = useState<TeamMember | null>(null);
   const [selectedRole, setSelectedRole] = useState('');
   const [activeTab, setActiveTab] = useState(searchParams.get('tab') || 'overview');
+
+  // Team name editing (admin only)
+  const [isEditingTeamName, setIsEditingTeamName] = useState(false);
+  const [editedTeamName, setEditedTeamName] = useState('');
+  const [savingTeamName, setSavingTeamName] = useState(false);
 
   // Update active tab when URL param changes
   useEffect(() => {
@@ -473,6 +479,40 @@ const TeamDashboardPage = () => {
     }
   };
 
+    // Handle team name editing (admin only)
+  const handleStartEditingTeamName = () => {
+    if (!teamData || !isAdmin) return;
+    setEditedTeamName(teamData.nameEn);
+    setIsEditingTeamName(true);
+  };
+
+  const handleSaveTeamName = async () => {
+    if (!teamData || !editedTeamName.trim() || !isAdmin) return;
+    
+    setSavingTeamName(true);
+    try {
+      const { error } = await supabase
+        .from('teams')
+        .update({ name: editedTeamName.trim() })
+        .eq('id', teamData.id);
+
+      if (error) throw error;
+
+      setTeamData(prev => prev ? { 
+        ...prev, 
+        name: editedTeamName.trim(),
+        nameEn: editedTeamName.trim() 
+      } : null);
+      setIsEditingTeamName(false);
+      toast.success(language === 'ar' ? 'تم تحديث اسم الفريق' : 'Team name updated');
+    } catch (error) {
+      console.error('Error updating team name:', error);
+      toast.error(language === 'ar' ? 'خطأ في تحديث اسم الفريق' : 'Error updating team name');
+    } finally {
+      setSavingTeamName(false);
+    }
+  };
+
   const handleEditMember = (member: TeamMember) => {
     setEditingMember(member);
     setSelectedRole(member.role);
@@ -555,6 +595,19 @@ const TeamDashboardPage = () => {
                 <h1 className="text-2xl md:text-3xl font-bold text-foreground">
                   {language === 'ar' ? teamData.name : teamData.nameEn}
                 </h1>
+                 {/* Admin-only edit team name button */}
+                {isAdmin && (
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={handleStartEditingTeamName}
+                    className="h-8 w-8 text-muted-foreground hover:text-primary"
+                    title={language === 'ar' ? 'تعديل اسم الفريق' : 'Edit team name'}
+                  >
+                    <Pencil className="w-4 h-4" />
+                  </Button>
+                )}
+
                 {/* Acceptance Status Badge - Primary */}
                 <Badge
                   variant="outline"
@@ -1185,6 +1238,41 @@ const TeamDashboardPage = () => {
             </Button>
             <Button variant="destructive" onClick={handleDeleteMember}>
               {language === 'ar' ? 'حذف' : 'Remove'}
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Edit Team Name Dialog (Admin Only) */}
+      <Dialog open={isEditingTeamName} onOpenChange={setIsEditingTeamName}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>
+              {language === 'ar' ? 'تعديل اسم الفريق' : 'Edit Team Name'}
+            </DialogTitle>
+          </DialogHeader>
+          <div className="py-4 space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="teamName">
+                {language === 'ar' ? 'اسم الفريق' : 'Team Name'}
+              </Label>
+              <Input
+                id="teamName"
+                value={editedTeamName}
+                onChange={(e) => setEditedTeamName(e.target.value)}
+                placeholder={language === 'ar' ? 'أدخل اسم الفريق' : 'Enter team name'}
+                minLength={3}
+                maxLength={30}
+              />
+            </div>
+          </div>
+          <div className="flex gap-3 justify-end">
+            <Button variant="outline" onClick={() => setIsEditingTeamName(false)} disabled={savingTeamName}>
+              {language === 'ar' ? 'إلغاء' : 'Cancel'}
+            </Button>
+            <Button onClick={handleSaveTeamName} disabled={savingTeamName || !editedTeamName.trim()}>
+              {savingTeamName && <Loader2 className="w-4 h-4 me-2 animate-spin" />}
+              {language === 'ar' ? 'حفظ' : 'Save'}
             </Button>
           </div>
         </DialogContent>
