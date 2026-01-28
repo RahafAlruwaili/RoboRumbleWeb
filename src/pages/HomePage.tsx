@@ -398,12 +398,12 @@ const SponsorsSection = () => {
               </div>
               <p className="mt-4 text-sm md:text-base font-semibold text-logo-orange text-center">
                 {language === 'ar' ? 'وزارة الاتصالات وتقنية المعلومات' : 'Ministry of Communications and IT'}
-    //          </p>
-      //      </div>
-  //        </div>
-//        </div>
-//
-// {/* Hosting Sponsor - الراعي المستضيف */}
+              </p>
+            </div>
+          </div>
+       </div>
+
+ {/* Hosting Sponsor - الراعي المستضيف */}
         <div className="mb-16">
           <h3 className="text-2xl font-bold text-logo-orange text-center mb-8">
             {language === 'ar' ? 'الراعي المستضيف' : 'Hosting Sponsor'}
@@ -423,26 +423,6 @@ const SponsorsSection = () => {
             </div>
           </div>
         </div>
-       // {/* Bronze Sponsor - الراعي البرونزي */}
-       // <div className="mb-16">
-         // <h3 className="text-2xl font-bold text-amber-600 text-center mb-8">
-         //   {language === 'ar' ? 'الراعي البرونزي' : 'Bronze Sponsor'}
-        //  </h3>
-        //  <div className="flex justify-center">
-          //  <div className="flex flex-col items-center">
-           //   <div className="relative">
-//                {/* Decorative line */}
-//                <div className="absolute left-1/2 -translate-x-1/2 -top-8 w-px h-8 bg-gradient-to-b from-amber-600/50 to-amber-600" />
-//                <div className="w-40 h-40 md:w-52 md:h-52 rounded-full flex items-center justify-center bg-white shadow-card hover:shadow-2xl hover:scale-110 hover:-translate-y-2 transition-all duration-300 p-10 cursor-pointer group">
-  //                <img src={smartMethodsLogo} alt="الأساليب الذكية" className="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-300" />
-    //            </div>
-      //        </div>
-        //      <p className="mt-4 text-sm md:text-base font-semibold text-amber-600 text-center">
-          //      {language === 'ar' ? 'الأساليب الذكية' : 'Smart Methods'}
-            //  </p>
-           // </div>
-         // </div>
-       // </div>
 
      {/* Participating Organizations - الجهات المشاركة */}
         <div className="mb-12">
