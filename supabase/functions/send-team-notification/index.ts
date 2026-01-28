@@ -17,39 +17,116 @@ interface TeamNotificationRequest {
 const getEmailContent = (status: string, teamName: string, language: string = "ar") => {
   const templates = {
     approved: {
-      subject: language === "ar" ? `تهانينا! تم قبول فريق "${teamName}" مبدئياً` : `Congratulations! Team "${teamName}" has been initially accepted`,
-      html: language === "ar"
-        ? `
-          <div dir="rtl" style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-            <h1 style="color: #22c55e; text-align: center;">🎉 تهانينا!</h1>
-            <p style="font-size: 18px; text-align: center;">تم قبول فريق <strong>"${teamName}"</strong> مبدئياً في المسابقة!</p>
-            <div style="background: #f0fdf4; border-radius: 12px; padding: 20px; margin: 20px 0;">
-              <h3 style="margin: 0 0 10px 0;">الخطوات التالية:</h3>
-              <ul style="margin: 0; padding-right: 20px;">
-                <li>يمكنك الآن حضور ورش العمل</li>
-                <li>انتظر القبول النهائي للمشاركة في المسابقة</li>
-                <li>تأكد من إكمال ملفات التصميم</li>
-              </ul>
-            </div>
-            <p style="text-align: center; color: #666;">بالتوفيق! 🚀</p>
-          </div>
-        `
-        : `
-          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-            <h1 style="color: #22c55e; text-align: center;">🎉 Congratulations!</h1>
-            <p style="font-size: 18px; text-align: center;">Team <strong>"${teamName}"</strong> has been initially accepted!</p>
-            <div style="background: #f0fdf4; border-radius: 12px; padding: 20px; margin: 20px 0;">
-              <h3 style="margin: 0 0 10px 0;">Next Steps:</h3>
-              <ul style="margin: 0; padding-left: 20px;">
-                <li>You can now attend workshops</li>
-                <li>Wait for final acceptance to participate</li>
-                <li>Make sure to complete design files</li>
-              </ul>
-            </div>
-            <p style="text-align: center; color: #666;">Good luck! 🚀</p>
-          </div>
-        `,
-    },
+  subject: language === "ar"
+    ? `تهانينا! تم قبول فريق "${teamName}" مبدئيًا`
+    : `Congratulations! Team "${teamName}" has been initially approved`,
+
+  html: language === "ar"
+    ? `
+      <div dir="rtl" style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+        
+        <h1 style="color: #22c55e; text-align: center;">🎉 تهانينا!</h1>
+
+        <p style="font-size: 16px; text-align: center;">
+          تم قبول فريق <strong>"${teamName}"</strong> مبدئيًا في مسابقة RoboRumble.
+        </p>
+
+        <div style="margin: 20px 0; text-align: center;">
+          <p><strong>روابط القروبات:</strong></p>
+          <p>
+            💬 مجموعة واتساب:
+            <a href="https://chat.whatsapp.com/FfeyX9uVV462WJHoBr163e">
+              اضغط هنا
+            </a>
+          </p>
+          <p>
+            🎮 سيرفر ديسكورد:
+            <a href="https://discord.gg/Qa5cpwPn7T">
+              اضغط هنا
+            </a>
+          </p>
+        </div>
+
+        <div style="background: #f0fdf4; border-radius: 12px; padding: 20px; margin: 20px 0;">
+          <h3 style="margin: 0 0 10px 0;">تفاصيل ورشة العمل</h3>
+          <ul style="margin: 0; padding-right: 20px; line-height: 1.9;">
+            <li>مدة الورش: <strong>٣ أيام (٢٩–٣١ يناير)</strong></li>
+            <li>وقت الورش: <strong>الساعة ٨ مساءً</strong></li>
+            <li>
+  تواجد المرشدين:
+  <strong>٦&nbsp;مساءً&nbsp;إلى&nbsp;١٠&nbsp;مساءً</strong>
+</li>
+
+
+
+            <li><strong>إجباري</strong> حضور المصمم والميكانيكي، واختياري لبقية الفريق</li>
+            <li>تنتهي الورشة بتسليم <strong>نموذج أولي للروبوت</strong></li>
+            <li>القبول في الهاكاثون الحضوري يعتمد على <strong>التصميم والالتزام بالحضور</strong></li>
+          </ul>
+        </div>
+        <p style="margin-top:16px; text-align:center;">
+  <strong>لتأكيد الحضور والمشاركة:</strong><br>
+  نرجو من <strong>قائد الفريق</strong> الرد على هذا الإيميل،<br>
+  والانضمام إلى <strong>سيرفر الديسكورد</strong> و<strong>مجموعة الواتساب</strong> لجميع أعضاء الفريق.
+</p>
+
+
+        <p style="text-align: center; color: #666;">
+          نتمنى لكم التوفيق! 🚀
+        </p>
+
+      </div>
+    `
+    : `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+        
+        <h1 style="color: #22c55e; text-align: center;">🎉 Congratulations!</h1>
+
+        <p style="font-size: 16px; text-align: center;">
+          Team <strong>"${teamName}"</strong> has been initially approved for RoboRumble.
+        </p>
+
+        <div style="margin: 20px 0; text-align: center;">
+          <p><strong>Community Links:</strong></p>
+          <p>
+            💬 WhatsApp Group:
+            <a href="https://chat.whatsapp.com/FfeyX9uVV462WJHoBr163e">
+              Click here
+            </a>
+          </p>
+          <p>
+            🎮 Discord Server:
+            <a href="https://discord.gg/Qa5cpwPn7T">
+              Click here
+            </a>
+          </p>
+        </div>
+
+        <div style="background: #f0fdf4; border-radius: 12px; padding: 20px; margin: 20px 0;">
+          <h3 style="margin: 0 0 10px 0;">Workshop Details</h3>
+          <ul style="margin: 0; padding-left: 20px; line-height: 1.9;">
+            <li>Duration: <strong>3 days (Jan 29-31)</strong></li>
+            <li>Time: <strong>8:00 PM</strong></li>
+            <li>Mentors available from <strong>6:00 PM to 10:00 PM</strong></li>
+            <li><strong>Mandatory</strong> for designers and mechanical members, optional for others</li>
+            <li>Workshop ends with submitting a <strong>robot prototype</strong></li>
+            <li>On-site hackathon acceptance is based on <strong>design quality and attendance</strong></li>
+          </ul>
+        </div>
+        <p style="margin-top:16px; text-align:center;">
+  <strong>To confirm attendance and participation:</strong><br>
+  The <strong>team leader</strong> is required to reply to this email,<br>
+  and ensure that all team members join the <strong>Discord server</strong> and <strong>WhatsApp group</strong>.
+</p>
+
+
+        <p style="text-align: center; color: #666;">
+          Best of luck! 🚀
+        </p>
+
+      </div>
+    `,
+},
     final_approved: {
       subject: language === "ar" ? `🏆 تم قبول فريق "${teamName}" نهائياً!` : `🏆 Team "${teamName}" is finally accepted!`,
       html: language === "ar"
@@ -77,7 +154,7 @@ const getEmailContent = (status: string, teamName: string, language: string = "a
               <ul style="margin: 0; padding-left: 20px;">
                 <li>You can now access the Preparation page</li>
                 <li>Make sure to attend on competition days</li>
-                <li>Only one absence allowed across 4 days</li>
+                <li>Only one absence allowed across 3 days</li>
               </ul>
             </div>
             <p style="text-align: center; color: #666; font-size: 20px;">See you at the competition! 🤖</p>
