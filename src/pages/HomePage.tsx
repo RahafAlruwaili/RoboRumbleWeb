@@ -7,7 +7,6 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import roborumbleLogo from '@/assets/roborumble-logo.png';
 import CountdownTimer from '@/components/CountdownTimer';
 import { useEffect, useState, useRef } from 'react';
-//import smartMethodsLogo from '@/assets/smart-methods-logo.png';
 import voxelLogo from '@/assets/voxel-logo.png';
 import voxel3dLogo from '@/assets/voxel3d-logo.png';
 import printingClubLogo from '@/assets/3dprinting-club-logo.jpg';

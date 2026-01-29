@@ -98,7 +98,7 @@ const Footer = () => {
         <p className="text-white">
           {language === 'ar' ? 'جميع الحقوق محفوظة لنادي الدرونز والروبوت 2026 ©' : 'All rights reserved to Drones and Robotics Club 2026 ©'}
         </p>
-        <span className="text-white/40 text-xs">v9</span>
+        <span className="text-white/40 text-xs"></span>
       </div>
     </div>
   </footer>;
