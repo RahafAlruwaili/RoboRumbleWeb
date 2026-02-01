@@ -489,8 +489,8 @@ const DesignsTab = ({ isAdmin = false, canEdit = false, isLocked = false, teamId
           <li className="flex items-start gap-2">
             <CheckCircle2 className="w-4 h-4 text-green-500 mt-0.5 shrink-0" />
             {language === 'ar' 
-              ? 'الحد الأقصى لحجم الملف: 50 ميجابايت'
-              : 'Maximum file size: 50MB'}
+              ? 'الحد الأقصى لحجم الملف: 150 ميجابايت'
+              : 'Maximum file size: 150MB'}
           </li>
           <li className="flex items-start gap-2">
             <CheckCircle2 className="w-4 h-4 text-green-500 mt-0.5 shrink-0" />
