@@ -52,9 +52,9 @@ const roleIcons: Record<string, React.ElementType> = {
 
 // Competition Days: 5-7 February 2026
 const days = [
-  { num: 2, ar: 'اليوم 2 (5 فبراير)', en: 'Day 2 (Feb 5)', date: '2026-02-05' },
-  { num: 3, ar: 'اليوم 3 (6 فبراير)', en: 'Day 3 (Feb 6)', date: '2026-02-06' },
-  { num: 4, ar: 'اليوم 4 (7 فبراير)', en: 'Day 4 (Feb 7)', date: '2026-02-07' },
+  { num: 1, ar: 'اليوم 1 (5 فبراير)', en: 'Day 1 (Feb 5)', date: '2026-02-05' },
+  { num: 2, ar: 'اليوم 2 (6 فبراير)', en: 'Day 2 (Feb 6)', date: '2026-02-06' },
+  { num: 3, ar: 'اليوم 3 (7 فبراير)', en: 'Day 3 (Feb 7)', date: '2026-02-07' },
 ];
 
 const PreparationTab = ({ teamMembers, isAdmin, teamId }: PreparationTabProps) => {
