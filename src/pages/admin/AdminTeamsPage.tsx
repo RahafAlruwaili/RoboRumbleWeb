@@ -42,6 +42,7 @@ const AdminTeamsPage = () => {
   const [selectedTeam, setSelectedTeam] = useState<TeamWithMembers | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [statusFilter, setStatusFilter] = useState<string>('all');
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [teamToDelete, setTeamToDelete] = useState<TeamWithMembers | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -134,13 +135,17 @@ const AdminTeamsPage = () => {
         return <Badge className="bg-yellow-500/20 text-yellow-500 border-yellow-500/30"><Clock className="w-3 h-3 me-1" />{language === 'ar' ? 'قيد المراجعة' : 'Pending'}</Badge>;
     }
   };
-
-  // Filter teams based on search
-  const filteredTeams = teams.filter(team =>
-    team.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    (team.name_ar && team.name_ar.includes(searchQuery)) ||
-    (team.leader?.full_name && team.leader.full_name.toLowerCase().includes(searchQuery.toLowerCase()))
-  );
+  // Filter teams based on search and status
+  const filteredTeams = teams.filter(team => {
+    const matchesSearch = team.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (team.name_ar && team.name_ar.includes(searchQuery)) ||
+      (team.leader?.full_name && team.leader.full_name.toLowerCase().includes(searchQuery.toLowerCase()));
+    
+    const matchesStatus = statusFilter === 'all' || team.status === statusFilter || 
+      (statusFilter === 'pending' && !team.status);
+    
+    return matchesSearch && matchesStatus;
+  });
 
   if (isLoading) {
     return (
@@ -187,17 +192,42 @@ const AdminTeamsPage = () => {
               {language === 'ar' ? 'قائمة الفرق' : 'Teams List'}
               <span className="text-sm font-normal text-muted-foreground">({filteredTeams.length})</span>
             </CardTitle>
-
-            {/* Search */}
-            <div className="relative">
-              <Search className="absolute top-1/2 -translate-y-1/2 start-3 text-muted-foreground" size={16} />
-              <Input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder={language === 'ar' ? 'بحث...' : 'Search...'}
-                className="ps-9 w-full sm:w-[250px]"
-              />
+ {/* Filters */}
+            <div className="flex flex-col sm:flex-row gap-3">
+              {/* Status Filter */}
+              <Select value={statusFilter} onValueChange={setStatusFilter}>
+                <SelectTrigger className="w-full sm:w-[180px]">
+                  <SelectValue placeholder={language === 'ar' ? 'فلتر الحالة' : 'Filter Status'} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">
+                    {language === 'ar' ? 'جميع الحالات' : 'All Statuses'}
+                  </SelectItem>
+                  <SelectItem value="pending">
+                    {language === 'ar' ? 'قيد المراجعة' : 'Pending'}
+                  </SelectItem>
+                  <SelectItem value="approved">
+                    {language === 'ar' ? 'مقبول مبدئياً' : 'Initial Accept'}
+                  </SelectItem>
+                  <SelectItem value="final_approved">
+                    {language === 'ar' ? 'مقبول نهائياً' : 'Final Accept'}
+                  </SelectItem>
+                  <SelectItem value="rejected">
+                    {language === 'ar' ? 'مرفوض' : 'Rejected'}
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+              {/* Search */}
+              <div className="relative">
+                <Search className="absolute top-1/2 -translate-y-1/2 start-3 text-muted-foreground" size={16} />
+                <Input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder={language === 'ar' ? 'بحث...' : 'Search...'}
+                  className="ps-9 w-full sm:w-[250px]"
+                />
+              </div>
             </div>
           </div>
         </CardHeader>
