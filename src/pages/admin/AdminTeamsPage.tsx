@@ -70,7 +70,7 @@ const AdminTeamsPage = () => {
 
       // Send email notification
       const notificationStatus = newStatus === 'approved' ? 'approved'
-        : newStatus === 'final_approved' ? 'final_approved'
+        //: newStatus === 'final_approved' ? 'final_approved'
           : newStatus === 'rejected' ? 'rejected'
             : null;
 
